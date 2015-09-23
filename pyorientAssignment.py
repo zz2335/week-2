@@ -3,7 +3,7 @@ import pyorient
 import sys
 
 client = pyorient.OrientDB("localhost", 2424)
-session_id = client.connect("root", "admin")
+session_id = client.connect("root", "network.ssl.keyStorePassword")
 db_name = "soufun"
 db_username = "admin"
 db_password = "admin"
@@ -39,11 +39,21 @@ print 'received ' + str(numListings) + ' records'
 for record in records:
 	print record.price
 
+sumprice = 0
+minimum = 9999999
+maximum = 0
+
+for record in records:
+    sumprice += record.price
+    if minimum > record.price:
+        minimum = record.price
+    if maximum < record.price:
+        maximum = record.price
 
 # [PRINT OUT THE RESULTING VALUES BY CONCATENATING THEM TO THESE LINES TO CHECK YOUR WORK]
 
-print 'min price: '
-print 'max price: ' 
-print 'average price: '
+print 'min price: ' + str(minimum)
+print 'max price: ' + str(maximum)
+print 'average price: ' + str(sumprice/numListings)
 
 client.db_close()
